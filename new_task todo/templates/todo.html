@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #36D1DC, #5B86E5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 60%;
+            text-align: center;
+            position: relative;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        h2 {
+            background: linear-gradient(to right, #007BFF, #00C6FF);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        input {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 80%;
+        }
+
+        button {
+            width: 80px;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            margin: 10px;
+            width: 80px;
+        }
+
+        .edit-btn {
+            background: green;
+            color: white;
+            padding: 5px;
+        }
+
+        .delete-btn {
+            background: red;
+            color: white;
+            padding: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+    </style>
+    <script>
+        function confirmDelete(taskId) {
+            if (confirm("Are you sure you want to delete this task?")) {
+                fetch(`/delete/${taskId}`, { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert("Error deleting task");
+                    }
+                });
+            }
+        }
+
+        function editTask(taskId, currentSubject, currentDescription) {
+            let newSubject = prompt("Edit Task Title:", currentSubject);
+            let newDescription = prompt("Edit Task Description:", currentDescription);
+
+            if (newSubject && newDescription) {
+                fetch(`/edit/${taskId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `subject=${encodeURIComponent(newSubject)}&description=${encodeURIComponent(newDescription)}`
+                }).then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert("Error updating task");
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <button class="logout-btn" onclick="window.location.href='{{ url_for('index') }}'">Logout</button>
+        <h1>TO-DO LIST</h1>
+        <form action="/add" method="POST">
+            <input type="text" name="subject" placeholder="Task Title" required>
+            <input type="text" name="description" placeholder="Task Description" required>
+            <pre><button type="submit">ADD</button></pre>
+        </form>
+
+        <h2>LIST OF TASKS:</h2>
+        <table>
+            <tr>
+                <th>Serial No.</th>
+                <th>Task Title</th>
+                <th>Task Description</th>
+                <th>Actions</th>
+            </tr>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ task.subject }}</td>
+                <td>{{ task.description }}</td>
+                <td>
+                    <button class="edit-btn" onclick="editTask('{{ task.id }}', '{{ task.subject }}', '{{ task.description }}')">EDIT</button>
+                    <button class="delete-btn" onclick="confirmDelete('{{ task.id }}')">🗑️</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

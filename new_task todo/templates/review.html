@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List - Reviews</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+            background-image:url("{{ url_for('static', filename='rev.png') }}");
+        }
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            background-color:lightblue;
+        }
+        h2 {
+            color: #333;
+        }
+        .review-box {
+            background: #fff3cd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .review-box strong {
+            color: #555;
+        }
+        .review-form {
+            margin-top: 20px;
+            text-align: left;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            margin-top: 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>To-Do List - User Reviews</h2>
+    <p>"A simple yet powerful task management tool to keep you organized!"</p>
+
+    <div id="reviews">
+        <div class="review-box">
+            <strong>John Doe:</strong> "Great tool! Helps me manage my daily tasks efficiently." ⭐⭐⭐⭐
+        </div>
+        <div class="review-box">
+            <strong>Sarah Lee:</strong> "Simple and effective, but adding a dark mode would be awesome!" ⭐⭐⭐
+        </div>
+        <div class="review-box">
+            <strong>Michael Tan:</strong> "Love the clean interface. Sorting tasks by date is a lifesaver." ⭐⭐⭐⭐⭐
+        </div>
+    </div>
+
+    <h3>Leave a Review</h3>
+    <form class="review-form" onsubmit="addReview(event)">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" placeholder="Enter your name" required>
+
+        <label for="review">Your Review:</label>
+        <textarea id="review" rows="4" placeholder="Write your review here..." required></textarea>
+
+        <label for="rating">Rating (1-5):</label>
+        <input type="number" id="rating" min="1" max="5" required>
+
+        <button type="submit">Submit Review</button>
+    </form>
+</div>
+
+<script>
+    function addReview(event) {
+        event.preventDefault();
+        let name = document.getElementById("name").value;
+        let review = document.getElementById("review").value;
+        let rating = document.getElementById("rating").value;
+        
+        if (name && review && rating) {
+            let reviewBox = document.createElement("div");
+            reviewBox.classList.add("review-box");
+            reviewBox.innerHTML = `<strong>${name}:</strong> "${review}" ${'⭐'.repeat(rating)}`;
+            
+            document.getElementById("reviews").appendChild(reviewBox);
+            alert("THANK YOU FOR YOUR REVIEW");
+            
+            document.getElementById("name").value = "";
+            document.getElementById("review").value = "";
+            document.getElementById("rating").value = "";
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            scroll-behavior: smooth;
+            background-image: url("{{url_for('static',filename='to.webp')}}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1a2a3a;
+            padding: 30px 30px;
+            position: fixed;
+            width: 98%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .app-name {
+            color: white;
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            border-bottom: 2px solid white;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.8rem;
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .section {
+            padding: 80px 20px;
+            margin-top: 60px;
+            text-align: center;
+            border-top: 2px solid #ddd;
+            min-height: 100vh;
+            /* background-image: url("{{url_for('static',filename='bg.jpg')}}"); */
+            /* background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; */
+        }
+
+        button {
+            background-color: rgb(38, 77, 118);
+            color: white;
+            padding: 25px 35px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: rgb(63, 96, 132);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                display: none;
+                width: 100%;
+                text-align: left;
+                padding: 10px 0;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 10px 20px;
+            }
+
+            .hamburger {
+                display: block;
+                position: absolute;
+                right: 20px;
+                top: 20px;
+            }
+        }
+        .contact-container {
+        max-width: 600px;
+        margin:auto;
+        /* background-color: rgb(231, 212, 212);  */
+        /* background: white; */
+        padding: 20px;
+        border-radius: 10px;
+        /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+        }
+    </style>
+    <script>
+        function toggleMenu() {
+            var nav = document.getElementById("nav-links");
+            if (nav.style.display === "flex") {
+                nav.style.display = "none";
+            } else {
+                nav.style.display = "flex";
+                nav.style.flexDirection = "column";
+            }
+        }
+
+    </script>
+</head>
+    <div class="navbar">
+        <div class="app-name">TaskFlow</div>
+        <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="#about">About</a>
+            <a href="#contact-us">Contact Us</a>
+            <a href="#reviews">Review</a>
+        </div>
+    </div>
+
+    <section id="home" class="section">
+        <h1 style="font-size:70px;">Welcome to To-Do List App</h1>
+        <h2 style="font-size: 40px;">Click below to start creating your tasks.</h2>
+        <form action="{{ url_for('signup') }}" method="get">
+            <button type="submit">Create a Task</button>
+        </form>
+        </section>
+
+    <section id="about" class="section" >
+        <pre>
+
+
+            
+        </pre>
+        <h1 style="font-size:50px;">About To-Do List App</h1>
+        <p style="font-size:30px;">The To-Do List App is a simple and efficient task management tool that helps you stay organized and productive. 
+            <br>Easily create, edit, and track your daily tasks in a streamlined interface.</p>
+        <h1 style="font-size:40px;">Key Features:</h1>
+        <div style="font-size:30px;" >
+            <li><strong>Task Management:</strong> Add, edit, and delete tasks effortlessly.</li>
+            <li><strong>Organized Lists:</strong> Sort tasks by categories using dropdown selections.</li>
+            <li><strong>Deadline Sorting:</strong> Tasks are automatically sorted by date.</li>
+            <li><strong>Intuitive Design:</strong> A user-friendly interface for smooth navigation.</li>
+        </div>
+    </section>
+
+    <section id="contact-us" class="section">
+        <div class="contact-container" ,style="text-align: center;" >
+            <h1 style="font-size: 50px;">Contact Us</h1>
+            <p style="font-size: 30px;" >If you have any questions, feedback, or need support, feel free to reach out to us.</p>
+            <form action="#">
+                <div class="input-group">
+                    <label for="name" style="font-size:20px;"><b>Name:</b></label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="input-group">
+                    <label for="email" style="font-size:20px;"><b>Email:</b></label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="message" style="font-size:20px;"><b>Message:</b></label>
+                    <textarea id="message" name="message" rows="2" required></textarea>
+                </div>
+                <button type="submit" style="font-size:20px;">Send Message</button>
+            </form>
+            <div class="contact-info">
+                <p style="font-size: 30px;"><strong style="font-size:20px;">Email:</strong>madhutodolisthelp9@gmail.com</p>
+                <p style="font-size: 30px;"><strong style="font-size:20px;">Phone:</strong> +91 9866896795</p>
+            </div>
+        </div>
+    </section>
+
+    <center>
+    <section id="reviews" class="section rev" ,style="text-align: center;">
+        <pre>
+
+
+
+
+        </pre>
+    
+        <div class="container" >
+        
+        <h1>To-Do List - User Reviews</h1>
+        <p style="font-size:20px;">"A simple yet powerful task management tool to keep you organized!"</p>
+
+        <div id="reviews" style="font-size:30px;" >
+            <div class="review-box">
+                <strong>John Doe:</strong> "Great tool! Helps me manage my daily tasks efficiently." ⭐⭐⭐⭐
+            </div>
+            <div class="review-box">
+                <strong>Sarah Lee:</strong> "Simple and effective, but adding a dark mode would be awesome!" ⭐⭐⭐
+            </div>
+            <div class="review-box">
+                <strong>Michael Tan:</strong> "Love the clean interface. Sorting tasks by date is a lifesaver." ⭐⭐⭐⭐⭐
+            </div>
+        </div></div>
+         <div class="container">
+                    <h3>Leave a Review</h3>
+        <form class="review-form">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" placeholder="Enter your name" required>
+
+            <label for="review">Your Review:</label>
+            <textarea id="review" rows="4" placeholder="Write your review here..." required></textarea>
+
+            <label for="rating">Rating (1-5):</label>
+            <input type="number" id="rating" min="1" max="5" required>
+
+            <button type="submit">Submit Review</button>
+        </form></div>
+
+</section>
+</center>
+
+<style>
+    .rev {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        /* background-color: #f4f4f4; */
+        text-align: center;
+        /* background-image:url("{{ url_for('static', filename='rev.png') }}"); */
+    }
+    .rev .container {
+        max-width: 700px;
+        margin: 50px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        /* background-color:lightblue; */
+    }
+    .rev h2 {
+        color: #333;
+    }
+    .rev .review-box {
+        background: #fff3cd;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+        text-align: left;
+    }
+    .rev .review-box strong {
+        color: #555;
+    }
+    .rev .review-form {
+        margin-top: 20px;
+        text-align: left;
+    }
+    .rev label {
+        font-weight: bold;
+        display: block;
+        margin-top: 10px;
+    }
+    .rev input, textarea {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .rev button {
+        margin-top: 15px;
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 10px;
+        width: 100%;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .rev button:hover {
+        background: #218838;
+    }
+</style>
+
+<script>
+    function addReview(event) {
+        event.preventDefault();
+        let name = document.getElementById("name").value;
+        let review = document.getElementById("review").value;
+        let rating = document.getElementById("rating").value;
+        
+        if (name && review && rating) {
+            let reviewBox = document.createElement("div");
+            reviewBox.classList.add("review-box");
+            reviewBox.innerHTML = `<strong>${name}:</strong> "${review}" ${'⭐'.repeat(rating)}`;
+            
+            document.getElementById("reviews").appendChild(reviewBox);
+            alert("THANK YOU FOR YOUR REVIEW");
+            
+            document.getElementById("name").value = "";
+            document.getElementById("review").value = "";
+            document.getElementById("rating").value = "";
+        }
+    }
+</script>
+</body>
+</html>
